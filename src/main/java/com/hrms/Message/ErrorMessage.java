@@ -8,6 +8,10 @@ public class ErrorMessage {
 
 	public static final String PASSWORD_NOT_MUCH = "Password dosen't much, retype password";
 
+	public static final String EMPLOYER_ALREADY_EXIST = "This employer already exist";
+
+	public static final String EMAIL_NOT_MUCH = "Email is not valid";
+
 	
 	
 

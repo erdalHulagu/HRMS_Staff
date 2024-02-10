@@ -81,7 +81,7 @@ public class JobSeekerService {
 	}
 
 	//--------------------------
-	public void deleteAllJobs() {
+	public void deleteAllJobSeekers() {
 		jobSeekerRepository.deleteAll();
 		
 	}
@@ -126,7 +126,23 @@ public class JobSeekerService {
 		
 	}
 
-	
+	public JobSeekerRequest updateJobSeeker(JobSeekerRequest jobSeekerRequest, Long id) {
+		 
+		JobSeeker jobSeeker =	getJobSeekerById(id);
+
+		jobSeeker.setFirstName(jobSeekerRequest.getFirstName());
+		jobSeeker.setLastName(jobSeekerRequest.getLastName());
+		jobSeeker.setBirth(jobSeekerRequest.getBirth());
+		jobSeeker.setPersonalId(jobSeekerRequest.getPersonalId());
+		jobSeeker.setEmail(jobSeekerRequest.getEmail());
+		jobSeeker.setPassword(jobSeekerRequest.getPassword());
+		jobSeeker.setPhone(jobSeekerRequest.getPhone());
+		jobSeeker.setWebside(jobSeekerRequest.getWebside());
+
+		jobSeekerRepository.save(jobSeeker);
+
+				return jobSeekerRequest;
+			}
 	
 
 	// -------- METHOD getJobSeekerById
@@ -145,23 +161,7 @@ public class JobSeekerService {
 			return jobs;
 		}
 
-		public JobSeekerRequest updateJobSeeker(JobSeekerRequest jobSeekerRequest, Long id) {
-			 
-			JobSeeker jobSeeker =	getJobSeekerById(id);
-
-			jobSeeker.setFirstName(jobSeekerRequest.getFirstName());
-			jobSeeker.setLastName(jobSeekerRequest.getLastName());
-			jobSeeker.setBirth(jobSeekerRequest.getBirth());
-			jobSeeker.setPersonalId(jobSeekerRequest.getPersonalId());
-			jobSeeker.setEmail(jobSeekerRequest.getEmail());
-			jobSeeker.setPassword(jobSeekerRequest.getPassword());
-			jobSeeker.setPhone(jobSeekerRequest.getPhone());
-			jobSeeker.setWebside(jobSeekerRequest.getWebside());
-
-			jobSeekerRepository.save(jobSeeker);
-
-					return jobSeekerRequest;
-				}
+		
 			
 		
 
