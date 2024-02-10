@@ -68,6 +68,11 @@ public class JobSeeker {
 	@Column(nullable = false)
 	@NotBlank
 	@NotNull
+	private String reTypePassword;
+	
+	@Column(nullable = false)
+	@NotBlank
+	@NotNull
 	private String phone;
 	
 	@Column(nullable = false,name = "companys_webside")

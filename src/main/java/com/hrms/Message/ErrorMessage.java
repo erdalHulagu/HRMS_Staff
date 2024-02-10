@@ -6,6 +6,8 @@ public class ErrorMessage {
 
 	public final static String JOBSEEKER_ALREADY_EXIST = "This job seeker already exist, please try to register with diffrent id or email";
 
+	public static final String PASSWORD_NOT_MUCH = "Password dosen't much, retype password";
+
 	
 	
 

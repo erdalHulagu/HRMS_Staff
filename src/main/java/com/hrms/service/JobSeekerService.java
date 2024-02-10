@@ -2,19 +2,15 @@ package com.hrms.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import com.hrms.DTO.JobDTO;
 import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ErrorMessage;
-import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
+import com.hrms.exeption.BadRequestException;
 import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.JobSeekerRepository;
 import com.hrms.request.JobSeekerRequest;
-import com.hrms.response.Response;
 
 @Service
 public class JobSeekerService {
@@ -31,15 +27,26 @@ public class JobSeekerService {
 
 	//--------------------------
 	public void createJobSeeker(JobSeeker jobSeeker) {
+		
+	boolean isEqual=jobSeeker.getPassword().equals(jobSeeker.getReTypePassword());
+		
+		if (!isEqual) {
+			
+			throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MUCH);
+			
+		}
+		
+		
 	List<JobSeeker> jobSeekers=	getAll();
 	
 	boolean exists = jobSeekers.stream()
             .anyMatch(jobSkr -> jobSkr.getPersonalId().equals(jobSeeker.getPersonalId())
             		         || jobSkr.getEmail().equals(jobSeeker.getEmail()));
 
-if (exists) {
- throw new ConflictException(ErrorMessage.JOBSEEKER_ALREADY_EXIST);
-}
+       if (exists) {
+       throw new ConflictException(ErrorMessage.JOBSEEKER_ALREADY_EXIST);
+    }
+      
 		
 		jobSeekerRepository.save(jobSeeker);
 		
