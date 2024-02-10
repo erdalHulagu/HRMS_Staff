@@ -34,12 +34,7 @@ public class Employer {
 	@Column(nullable = false)
 	@NotBlank
 	@NotNull
-	private String firstName;
-	
-	@Column(nullable = false)
-	@NotBlank
-	@NotNull
-	private String lastName;
+	private String companyName;
 	
 	@Email(message = "Please provide a email adress")
 	@Column(nullable = false)
@@ -51,6 +46,11 @@ public class Employer {
 	@NotBlank
 	@NotNull
 	private String password;
+	
+	@Column(nullable = false)
+	@NotBlank
+	@NotNull
+	private String reTypepassword;
 	
 	@Column(nullable = false)
 	@NotBlank

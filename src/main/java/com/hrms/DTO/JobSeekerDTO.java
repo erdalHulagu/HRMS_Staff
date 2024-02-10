@@ -54,6 +54,7 @@ public class JobSeekerDTO {
 	@NotNull
 	private String password;
 	
+	
 	@NotBlank
 	@NotNull
 	private String phone;
