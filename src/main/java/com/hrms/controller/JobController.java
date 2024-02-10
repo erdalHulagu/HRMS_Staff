@@ -93,7 +93,7 @@ response.setSuccess(true);
 		return ResponseEntity.ok(response);
 	}
 	
-	@PatchMapping("/upDate/{id}")
+	@PutMapping("/upDate/{id}")
 	public ResponseEntity<JobRequest> updateJob( @RequestBody JobRequest jobRequest, @PathVariable Long id ){
 		
 		JobRequest job=jobService.updateJob(jobRequest,id);
@@ -103,12 +103,4 @@ response.setSuccess(true);
 	}
 
 }
-//{
-//"firstName":"Ali",
-//"lastName":"Ali",
-//"birth": "1990-01-04",
-//"email":"ali@ali.com",
-//"password":"password",
-//"phone":"7586654863",
-//"webside":"www.ali.com"
-//}
+

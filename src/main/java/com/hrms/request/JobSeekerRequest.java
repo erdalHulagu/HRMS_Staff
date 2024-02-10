@@ -37,6 +37,10 @@ public class JobSeekerRequest {
 	@NotNull
 	private LocalDate birth;
 	
+	@NotBlank
+	@NotNull
+	private String personalId;
+	
 	@Email(message = "Please provide a email adress")
 	@NotBlank
 	@NotNull

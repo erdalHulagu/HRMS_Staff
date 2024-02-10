@@ -44,6 +44,11 @@ public class JobSeeker {
 	@NotNull
 	private String lastName;
 	
+	@Column(nullable = false)
+	@NotBlank
+	@NotNull
+	private String personalId;
+	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@NotNull
 	@Column(nullable = false, updatable = false)

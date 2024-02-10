@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,7 +95,7 @@ response.setSuccess(true);
 	}
 	
 	
-	@PatchMapping("/upDate/{id}")
+	@PutMapping("/upDate/{id}")
 	public ResponseEntity<JobSeekerRequest> updateJob( @RequestBody JobSeekerRequest jobSeekerRequest, @PathVariable Long id ){
 		
 		JobSeekerRequest jobSeeker=jobSeekerService.updateJobSeeker(jobSeekerRequest,id);

@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.hrms.domain.Job;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +40,10 @@ public class JobSeekerDTO {
 	@NotBlank
 	@NotNull
 	private LocalDate birth;
+	
+	@NotBlank
+	@NotNull
+	private String personalId;
 	
 	@Email(message = "Please provide a email adress")
 	@NotBlank

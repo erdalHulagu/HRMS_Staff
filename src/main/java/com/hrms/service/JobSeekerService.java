@@ -10,9 +10,11 @@ import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ErrorMessage;
 import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
+import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.JobSeekerRepository;
 import com.hrms.request.JobSeekerRequest;
+import com.hrms.response.Response;
 
 @Service
 public class JobSeekerService {
@@ -29,10 +31,21 @@ public class JobSeekerService {
 
 	//--------------------------
 	public void createJobSeeker(JobSeeker jobSeeker) {
+	List<JobSeeker> jobSeekers=	getAll();
+	
+	boolean exists = jobSeekers.stream()
+            .anyMatch(jobSkr -> jobSkr.getPersonalId().equals(jobSeeker.getPersonalId())
+            		         || jobSkr.getEmail().equals(jobSeeker.getEmail()));
+
+if (exists) {
+ throw new ConflictException(ErrorMessage.JOBSEEKER_ALREADY_EXIST);
+}
 		
 		jobSeekerRepository.save(jobSeeker);
 		
 	}
+
+
 	//--------------------------
 	public JobSeekerDTO findJobSeekerById(Long id) {
 	JobSeeker jobSeeker=	getJobSeekerById(id);
@@ -42,6 +55,7 @@ public class JobSeekerService {
 	jobSeekerDTO.setFirstName(jobSeeker.getFirstName());
 	jobSeekerDTO.setLastName(jobSeeker.getLastName());
 	jobSeekerDTO.setBirth(jobSeeker.getBirth());
+	jobSeekerDTO.setPersonalId(jobSeeker.getPersonalId());
 	jobSeekerDTO.setEmail(jobSeeker.getEmail());
 	jobSeekerDTO.setPassword(jobSeeker.getPassword());
 	jobSeekerDTO.setPhone(jobSeeker.getPhone());
@@ -77,6 +91,7 @@ public class JobSeekerService {
 //	            		                         , jobSeeker.getFirstName()
 //	            		                         , jobSeeker.getLastName()
 //	            		                         , jobSeeker.getBirth()
+//			                                     , jobSeeker.getPersonalId()
 //	            		                         , jobSeeker.getEmail()
 //	            		                         , jobSeeker.getPassword()
 //	            		                         , jobSeeker.getPhone()
@@ -92,6 +107,7 @@ public class JobSeekerService {
 	            		                                      jobSeeker.getFirstName()
                                                             , jobSeeker.getLastName()
                                                             , jobSeeker.getBirth()
+                                                            , jobSeeker.getPersonalId()
                                                             , jobSeeker.getEmail()
                                                             , jobSeeker.getPassword()
                                                             , jobSeeker.getPhone()
@@ -129,6 +145,7 @@ public class JobSeekerService {
 			jobSeeker.setFirstName(jobSeekerRequest.getFirstName());
 			jobSeeker.setLastName(jobSeekerRequest.getLastName());
 			jobSeeker.setBirth(jobSeekerRequest.getBirth());
+			jobSeeker.setPersonalId(jobSeekerRequest.getPersonalId());
 			jobSeeker.setEmail(jobSeekerRequest.getEmail());
 			jobSeeker.setPassword(jobSeekerRequest.getPassword());
 			jobSeeker.setPhone(jobSeekerRequest.getPhone());
