@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,35 +12,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hrms.DTO.JobDTO;
+import com.hrms.DTO.EmployerDTO;
 import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ResponseMessage;
-import com.hrms.domain.Job;
+import com.hrms.domain.Employer;
 import com.hrms.domain.JobSeeker;
+import com.hrms.request.EmployerRequest;
 import com.hrms.request.JobSeekerRequest;
 import com.hrms.response.Response;
-import com.hrms.service.JobSeekerService;
+import com.hrms.service.EmployerService;
 
 @RestController
-@RequestMapping("/jobSeekers")
-public class JobSeekerController {
+@RequestMapping("employers")
+public class EmployerController {
 	
-	private JobSeekerService jobSeekerService;
-
-	public JobSeekerController(JobSeekerService jobSeekerService) {
+	private EmployerService employerService;
+	
+	public EmployerController(EmployerService employerService) {
+		this.employerService=employerService;
 		
-		this.jobSeekerService = jobSeekerService;
 	}
-	
-	@PostMapping("/createJobSeeker")
-	public ResponseEntity<Response> createJobSeeker(@RequestBody JobSeeker jobSeeker ){
+
+	@PostMapping("/createEmployer")
+	public ResponseEntity<Response> createJobSeeker(@RequestBody Employer employer ){
 		
 		
 		
-		jobSeekerService.createJobSeeker(jobSeeker);
+		employerService.createEmployer(employer);
 	
 	Response response = new Response();
-	response.setMessage(ResponseMessage.JOBSEEKER_CREATED);
+	response.setMessage(ResponseMessage.EMPLOYER_CREATED);
 	response.setSuccess(true);
 	
 	return ResponseEntity.ok(response);
@@ -51,19 +51,19 @@ public class JobSeekerController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<JobSeekerDTO> getJobSeekerById(@PathVariable Long id){
+	public ResponseEntity<EmployerDTO> getJobSeekerById(@PathVariable Long id){
 		
-		JobSeekerDTO jobSeekerDTO=	jobSeekerService.findJobSeekerById(id);
+		EmployerDTO employerDTO=	employerService.findEmployerById(id);
 		
-	return ResponseEntity.ok(jobSeekerDTO);
+	return ResponseEntity.ok(employerDTO);
 	}
 
 	
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<JobSeekerDTO>> getAll(){
+	public ResponseEntity<List<EmployerDTO>> getAll(){
 		
-		List<JobSeekerDTO> jobSeekerDTO=	jobSeekerService.findAllJobSeekers();
+		List<EmployerDTO> jobSeekerDTO=	employerService.getAllEmployers();
 		
 		return ResponseEntity.ok(jobSeekerDTO);
 	}
@@ -72,7 +72,7 @@ public class JobSeekerController {
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Response> deleteById(@PathVariable Long id){
 		
-		jobSeekerService.deleteJobSeekerById(id);
+		employerService.deleteEmployerById(id);
 		
 Response response=new Response();
 response.setMessage(ResponseMessage.JOBSEEKER_DELETED);
@@ -82,9 +82,9 @@ response.setSuccess(true);
 		return ResponseEntity.ok(response);
 	}
 	@DeleteMapping("deleteAll")
-	public ResponseEntity<Response> deleteJodById(){
+	public ResponseEntity<Response> deleteEmployerById(){
 		
-		jobSeekerService.deleteAllJobSeekers();
+		employerService.deleteAllEmplloyers();
 		
 		Response response=new Response();
 		response.setMessage(ResponseMessage.ALL_JOBSEEKERS_DELETED);
@@ -96,12 +96,19 @@ response.setSuccess(true);
 	
 	
 	@PutMapping("/upDate/{id}")
-	public ResponseEntity<JobSeekerRequest> updateJob( @RequestBody JobSeekerRequest jobSeekerRequest, @PathVariable Long id ){
+	public ResponseEntity<Response> updateJob( @RequestBody EmployerRequest employerRequest, @PathVariable Long id ){
 		
-		JobSeekerRequest jobSeeker=jobSeekerService.updateJobSeeker(jobSeekerRequest,id);
+		EmployerRequest request=employerService.updateEmployer(employerRequest,id);
 		
-		return ResponseEntity.ok(jobSeeker);  
+
+		Response response = new Response();
+		response.setMessage(ResponseMessage.EMPLOYER_UPDATED);
+		response.setSuccess(true);
+		response.setReturnObject(request);
+		
+		return ResponseEntity.ok(response);  
 		
 	}
 
 }
+

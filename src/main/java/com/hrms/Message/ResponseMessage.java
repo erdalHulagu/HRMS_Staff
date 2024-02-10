@@ -12,4 +12,8 @@ public class ResponseMessage {
 	public static final String JOBSEEKER_DELETED = "job seeker succesfully deleted";
 	public static final String ALL_JOBSEEKERS_DELETED = "All the job seekers succesfully deleted";
 	
+	
+	public static final String EMPLOYER_CREATED = "Employer succesfully created";
+	public static final String EMPLOYER_UPDATED = "Employer succesfully up dated";
+	
 }

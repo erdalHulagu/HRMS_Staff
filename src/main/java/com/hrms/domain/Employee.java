@@ -23,11 +23,11 @@ package com.hrms.domain;
 	 @Getter
 	 @AllArgsConstructor
 	 @NoArgsConstructor
-	 @Table(name = "emloyee")
+	 @Table(name = "tb_emloyee")
 	 public class Employee {
 	 	
 	 	@Id
-	 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	 	@GeneratedValue(strategy = GenerationType.AUTO)
 	 	private Long id;
 	 	
 	 	@Column(nullable = false)
