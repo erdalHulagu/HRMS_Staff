@@ -11,6 +11,8 @@ public class ErrorMessage {
 	public static final String EMPLOYER_ALREADY_EXIST = "This employer already exist";
 
 	public static final String EMAIL_NOT_MUCH = "Email is not valid";
+	
+	public static final String NAME_CONFLICT = "%s al ready exist   ";
 
 	
 	

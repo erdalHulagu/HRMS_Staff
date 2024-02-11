@@ -109,7 +109,7 @@ response.setSuccess(true);
 		return ResponseEntity.ok(jobSeeker);  
 		
 	}
-	@PostMapping("{jobSeekerId}/apply/{JobId}")
+	@PostMapping("/{jobSeekerId}/apply/{JobId}")
 	public ResponseEntity<Response> applyForJob(@PathVariable Long jobSeekerId, @PathVariable  Long JobId){
 		
 	jobService.applyForJob(jobSeekerId,JobId);

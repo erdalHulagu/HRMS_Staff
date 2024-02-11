@@ -49,7 +49,9 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 	List<Employer> employers= getAll();
 	
 	boolean exists = employers.stream()
-            .anyMatch(emplyr -> emplyr.getEmail().equals(employer.getEmail()));
+            .anyMatch(emplyr -> emplyr.getEmail().equals(employer.getEmail())
+            		          ||emplyr.getCompanyName().equals(employer.getCompanyName())
+            		          ||emplyr.getPhone().equals(employer.getPhone()));
             		        
 
        if (exists) {

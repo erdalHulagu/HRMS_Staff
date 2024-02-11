@@ -1,6 +1,7 @@
 package com.hrms.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.LayoutFocusTraversalPolicy;
@@ -14,6 +15,7 @@ import com.hrms.DTO.JobDTO;
 import com.hrms.Message.ErrorMessage;
 import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
+import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.JobRepository;
 import com.hrms.repository.JobSeekerRepository;
@@ -45,7 +47,14 @@ public class JobService {
 
 	//--------------------------
 	public void createJob(Job job) {
-		
+	List<Job> jobs	=getAll();
+	
+	boolean isMuch =jobs.stream().anyMatch(jb->jb.getName().equals(job.getName()));
+	
+	if (isMuch) {
+		throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getName()));
+	}
+	
 		jobRepository.save(job);
 		
 			
@@ -167,9 +176,10 @@ public class JobService {
 		
 		 Job job  =getById(jobId);
 		
-		jobSeeker.getAppliedJobs().add(job);
+		job.getJobSeekers().add(jobSeeker);
 		
-		jobSeekerRepository.save(jobSeeker);
+		jobRepository.save(job);
+		
 		
 		
 	}

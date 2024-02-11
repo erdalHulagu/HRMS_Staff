@@ -1,7 +1,5 @@
 package com.hrms.controller;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hrms.DTO.EmployerDTO;
 import com.hrms.Message.ResponseMessage;
 import com.hrms.domain.Employer;
-import com.hrms.domain.Job;
 import com.hrms.request.EmployerRequest;
 import com.hrms.response.Response;
 import com.hrms.service.EmployerService;
