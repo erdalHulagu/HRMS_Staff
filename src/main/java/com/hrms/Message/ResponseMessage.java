@@ -15,5 +15,6 @@ public class ResponseMessage {
 	
 	public static final String EMPLOYER_CREATED = "Employer succesfully created";
 	public static final String EMPLOYER_UPDATED = "Employer succesfully up dated";
+	public static final String SET_WWW = "Your web side has to start with -> www.";
 	
 }

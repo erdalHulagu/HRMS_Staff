@@ -1,5 +1,7 @@
 package com.hrms.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hrms.DTO.EmployerDTO;
-import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ResponseMessage;
 import com.hrms.domain.Employer;
-import com.hrms.domain.JobSeeker;
 import com.hrms.request.EmployerRequest;
-import com.hrms.request.JobSeekerRequest;
 import com.hrms.response.Response;
 import com.hrms.service.EmployerService;
 
@@ -63,9 +62,9 @@ public class EmployerController {
 	@GetMapping("/all")
 	public ResponseEntity<List<EmployerDTO>> getAll(){
 		
-		List<EmployerDTO> jobSeekerDTO=	employerService.getAllEmployers();
-		
-		return ResponseEntity.ok(jobSeekerDTO);
+	    List<EmployerDTO> employerDTOs = employerService.getAllEmployers();
+	 
+	    return ResponseEntity.ok(employerDTOs);
 	}
 	
 	
