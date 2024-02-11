@@ -14,6 +14,7 @@ import com.hrms.exeption.BadRequestException;
 import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.EmployerRepository;
+import com.hrms.repository.JobRepository;
 import com.hrms.request.EmployerRequest;
 
 @Service
@@ -22,10 +23,14 @@ public class EmployerService {
 	
 	private EmployerRepository employerRepository;
 	
+	private JobRepository jobRepository;
+	
 
-	public EmployerService(EmployerRepository employerRepository) {
+	public EmployerService(EmployerRepository employerRepository,
+			               JobRepository jobRepository) {
 		
 		this.employerRepository = employerRepository;
+		this.jobRepository=jobRepository;
 	}
 
 //------------------------
@@ -151,6 +156,13 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 //			    Collections.sort(employers, Comparator.comparing(employerDTO -> employerDTO.getCompanyName.substring(0, 1)));
 			    
 			return employers;
+		}
+
+		public void addNewJob() {
+			
+			
+			
+			
 		}
 
 		

@@ -2,6 +2,7 @@ package com.hrms.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +22,21 @@ import com.hrms.domain.JobSeeker;
 import com.hrms.request.JobSeekerRequest;
 import com.hrms.response.Response;
 import com.hrms.service.JobSeekerService;
+import com.hrms.service.JobService;
 
 @RestController
 @RequestMapping("/jobSeekers")
 public class JobSeekerController {
 	
 	private JobSeekerService jobSeekerService;
+	
+	private JobService jobService;
 
-	public JobSeekerController(JobSeekerService jobSeekerService) {
+	public JobSeekerController(JobSeekerService jobSeekerService,
+			                   JobService jobService) {
 		
 		this.jobSeekerService = jobSeekerService;
+		this.jobService=jobService;
 	}
 	
 	@PostMapping("/createJobSeeker")
@@ -101,6 +107,20 @@ response.setSuccess(true);
 		JobSeekerRequest jobSeeker=jobSeekerService.updateJobSeeker(jobSeekerRequest,id);
 		
 		return ResponseEntity.ok(jobSeeker);  
+		
+	}
+	@PostMapping("{jobSeekerId}/apply/{JobId}")
+	public ResponseEntity<Response> applyForJob(@PathVariable Long jobSeekerId, @PathVariable  Long JobId){
+		
+	jobService.applyForJob(jobSeekerId,JobId);
+		
+		Response response=new Response();
+		
+		response.setMessage(ResponseMessage.APPLY_JOB);
+		response.setSuccess(true);
+		
+	return	ResponseEntity.ok(response);
+		
 		
 	}
 

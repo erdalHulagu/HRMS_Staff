@@ -36,6 +36,15 @@ public class Job {
 	@NotBlank
 	private String name;
 	
+	
+	@Column(name = "job_quantity")
+	@NotNull
+	private int quantity;
+	
+	@Column(name = "job_description")
+	@NotNull
+	private String description;
+	
 	@ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
