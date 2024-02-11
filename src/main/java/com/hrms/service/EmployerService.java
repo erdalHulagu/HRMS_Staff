@@ -1,20 +1,20 @@
 package com.hrms.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.hrms.DTO.EmployerDTO;
-import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ErrorMessage;
-import com.hrms.domain.Employee;
 import com.hrms.domain.Employer;
-import com.hrms.domain.JobSeeker;
 import com.hrms.exeption.BadRequestException;
 import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.EmployerRepository;
+import com.hrms.repository.JobRepository;
 import com.hrms.request.EmployerRequest;
 
 @Service
@@ -23,14 +23,20 @@ public class EmployerService {
 	
 	private EmployerRepository employerRepository;
 	
+	private JobRepository jobRepository;
+	
 
-	public EmployerService(EmployerRepository employerRepository) {
+	public EmployerService(EmployerRepository employerRepository,
+			               JobRepository jobRepository) {
 		
 		this.employerRepository = employerRepository;
+		this.jobRepository=jobRepository;
 	}
 
 //------------------------
 	public void createEmployer(Employer employer) {
+		
+		
 boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 		
 		if (!isEqual) {
@@ -43,7 +49,9 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 	List<Employer> employers= getAll();
 	
 	boolean exists = employers.stream()
-            .anyMatch(emplyr -> emplyr.getEmail().equals(employer.getEmail()));
+            .anyMatch(emplyr -> emplyr.getEmail().equals(employer.getEmail())
+            		          ||emplyr.getCompanyName().equals(employer.getCompanyName())
+            		          ||emplyr.getPhone().equals(employer.getPhone()));
             		        
 
        if (exists) {
@@ -66,6 +74,7 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 			employerDTO.setCompanyName(employer.getCompanyName());
 			employerDTO.setEmail(employer.getEmail());
 			employerDTO.setPassword(employer.getPassword());
+			employerDTO.setCreateTime(employer.getCreateTime());
 			employerDTO.setPhone(employer.getPhone());
 			employerDTO.setWebside(employer.getWebside());
 			
@@ -84,6 +93,7 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 		employers.stream()
             .map(emplyr -> new EmployerDTO( emplyr.getCompanyName()
             		                         , emplyr.getEmail()
+            		                         , emplyr.getCreateTime()
             		                         , emplyr.getPassword()
 		                                     , emplyr.getPhone()
             		                         , emplyr.getWebside()))
@@ -104,6 +114,7 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 		
 	}
 	public EmployerRequest updateEmployer(EmployerRequest employerRequest, Long id) {
+		
 		Employer employer=getEmployerById(id);
 		
 	boolean isSame=	employer.getEmail().equals(employerRequest.getEmail());
@@ -139,7 +150,21 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
     // -----Method getAll ------
 		public List<Employer> getAll(){
 			List<Employer> employers=	employerRepository.findAll();
+			
+			//Alttaki Collections olusturuldugu andaki zamana  göre artan sırayla sıralar
+			 Collections.sort(employers, Comparator.comparing(Employer::getCreateTime));
+			 
+			//------------Alttaki methodda kullanilabilir buda ismin bas harflerine gore ASC olarak siralar
+//			    Collections.sort(employers, Comparator.comparing(employerDTO -> employerDTO.getCompanyName.substring(0, 1)));
+			    
 			return employers;
+		}
+
+		public void addNewJob() {
+			
+			
+			
+			
 		}
 
 		

@@ -26,11 +26,12 @@ public class JobRequest {
 	
 	private String name;
 	
+    private int quantity;
+	
+	private String description;
 	
     private Employer employer;
 
-	
-    
     private Set<JobSeeker> jobSeekers;
 	
 	

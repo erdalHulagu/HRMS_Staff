@@ -40,6 +40,10 @@ public class JobDTO {
 	@NotBlank
 	private String name;
 	
+	private int quantity;
+	
+	private String description;
+	
 	
 //    private Employer employer;
 

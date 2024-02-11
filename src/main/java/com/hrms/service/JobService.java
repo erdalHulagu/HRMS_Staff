@@ -1,10 +1,12 @@
 package com.hrms.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.LayoutFocusTraversalPolicy;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.hrms.DTO.JobDTO;
 import com.hrms.Message.ErrorMessage;
 import com.hrms.domain.Job;
+import com.hrms.domain.JobSeeker;
+import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.JobRepository;
+import com.hrms.repository.JobSeekerRepository;
 import com.hrms.request.JobRequest;
 import com.hrms.response.Response;
 
@@ -23,18 +28,37 @@ public class JobService {
 	
 	private JobRepository jobRepository;
 	
+	private JobSeekerRepository jobSeekerRepository;
+	
+	private  JobSeekerService jobSeekerService;
 	
 
-	public JobService(JobRepository jobRepository) {
+	public JobService(JobRepository jobRepository,
+			          JobSeekerRepository jobSeekerRepository,
+			          JobSeekerService jobSeekerService) {
 	
 		this.jobRepository = jobRepository;
+		this.jobSeekerRepository=jobSeekerRepository;
+		this.jobSeekerService=jobSeekerService;
+		
+		
 	}
 
 
 	//--------------------------
 	public void createJob(Job job) {
-		
+	List<Job> jobs	=getAll();
+	
+	boolean isMuch =jobs.stream().anyMatch(jb->jb.getName().equals(job.getName()));
+	
+	if (isMuch) {
+		throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getName()));
+	}
+	
 		jobRepository.save(job);
+		
+			
+	
 		
 	}
 
@@ -47,6 +71,8 @@ public class JobService {
 			JobDTO jobDTO=new JobDTO();
 		
 		jobDTO.setName(job.getName());
+		jobDTO.setDescription(job.getDescription());
+		jobDTO.setQuantity(job.getQuantity());
 	
 	return jobDTO;
 		
@@ -69,7 +95,9 @@ public class JobService {
 
 	       
 	        for (Job job : jobs) {
-	            JobDTO jobDTO = new JobDTO(job.getName());
+	            JobDTO jobDTO = new JobDTO(job.getName(),
+	            		                   job.getQuantity(),
+	            		                   job.getDescription());
 	            jobDTOs.add(jobDTO);
 	        }
 		
@@ -86,9 +114,11 @@ public class JobService {
 		
 		Job job =	getById(id);
 
-job.setName(jobRequest.getName());
+       job.setName(jobRequest.getName());
+       job.setDescription(jobRequest.getDescription());
+       job.setQuantity(jobRequest.getQuantity());
 
-jobRepository.save(job);
+         jobRepository.save(job);
 
 		return jobRequest;
 	}
@@ -126,6 +156,7 @@ jobRepository.save(job);
 		Job job =	jobRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
+		
 		return job;
 	}
 
@@ -137,6 +168,23 @@ jobRepository.save(job);
 		List<Job> jobs=	jobRepository.findAll();
 		return jobs;
 	}
+
+
+	public void applyForJob(Long JobSeekerid, Long jobId) {
+		
+		JobSeeker jobSeeker=jobSeekerService.getJobSeekerById(JobSeekerid);
+		
+		 Job job  =getById(jobId);
+		
+		job.getJobSeekers().add(jobSeeker);
+		
+		jobRepository.save(job);
+		
+		
+		
+	}
+
+
 	
 	
 

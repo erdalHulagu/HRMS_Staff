@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hrms.DTO.EmployerDTO;
-import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ResponseMessage;
 import com.hrms.domain.Employer;
-import com.hrms.domain.JobSeeker;
 import com.hrms.request.EmployerRequest;
-import com.hrms.request.JobSeekerRequest;
 import com.hrms.response.Response;
 import com.hrms.service.EmployerService;
+import com.hrms.service.JobService;
 
 @RestController
 @RequestMapping("employers")
@@ -28,8 +26,12 @@ public class EmployerController {
 	
 	private EmployerService employerService;
 	
-	public EmployerController(EmployerService employerService) {
+	private JobService jobService;
+	
+	public EmployerController(EmployerService employerService,
+			                  JobService jobService) {
 		this.employerService=employerService;
+		this.jobService=jobService;
 		
 	}
 
@@ -63,9 +65,9 @@ public class EmployerController {
 	@GetMapping("/all")
 	public ResponseEntity<List<EmployerDTO>> getAll(){
 		
-		List<EmployerDTO> jobSeekerDTO=	employerService.getAllEmployers();
-		
-		return ResponseEntity.ok(jobSeekerDTO);
+	    List<EmployerDTO> employerDTOs = employerService.getAllEmployers();
+	 
+	    return ResponseEntity.ok(employerDTOs);
 	}
 	
 	
@@ -109,6 +111,7 @@ response.setSuccess(true);
 		return ResponseEntity.ok(response);  
 		
 	}
+	
 
 }
 

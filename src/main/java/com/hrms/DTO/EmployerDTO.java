@@ -1,6 +1,7 @@
 package com.hrms.DTO;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.hrms.domain.Job;
@@ -38,6 +39,10 @@ public class EmployerDTO {
 	@NotBlank
 	@NotNull
 	private String email;
+	
+	
+	private LocalDateTime createTime;
+	
 	
 	@NotBlank
 	@NotNull

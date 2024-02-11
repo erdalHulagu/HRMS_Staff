@@ -1,6 +1,7 @@
 package com.hrms.domain;
 
-	import java.util.Set;
+	import java.util.List;
+import java.util.Set;
 	
 	import jakarta.persistence.CascadeType;
 	import jakarta.persistence.Column;
@@ -9,7 +10,8 @@ package com.hrms.domain;
 	import jakarta.persistence.GenerationType;
 	import jakarta.persistence.Id;
 	import jakarta.persistence.ManyToOne;
-	import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 	import jakarta.validation.constraints.Email;
 	 import jakarta.validation.constraints.NotBlank;
 	 import jakarta.validation.constraints.NotNull;
@@ -30,38 +32,13 @@ package com.hrms.domain;
 	 	@GeneratedValue(strategy = GenerationType.AUTO)
 	 	private Long id;
 	 	
-	 	@Column(nullable = false)
-	 	@NotBlank
-	 	@NotNull
-	 	private String employeeFirstName;
 	 	
-	 	@Column(nullable = false)
-	 	@NotBlank
-	 	@NotNull
-	 	private String employeeLastName;
+	 
 	 	
-	 	@Email(message = "Please provide a email adress")
-	 	@Column(nullable = false)
-	 	@NotBlank
-	 	@NotNull
-	 	private String email;
 	 	
-	 	@Column(nullable = false)
-	 	@NotBlank
-	 	@NotNull
-	 	private String password;
 	 	
-	 	@Column(nullable = false)
-	 	@NotBlank
-	 	@NotNull
-	 	private String phone;
 	 	
-	 	@Column(nullable = false,name = "companys_webside")
-	 	@NotBlank
-	 	@NotNull
-	 	private String webside;
 	 	
-	 	@ManyToOne(targetEntity = Job.class,cascade = CascadeType.ALL)
-	 	private Set<Job> jobs;
+	 	
 	 	
 	 }
