@@ -29,8 +29,8 @@ public class JobSeekerService {
 	public void createJobSeeker(JobSeeker jobSeeker) {
 		
 	boolean isEqual=jobSeeker.getPassword().equals(jobSeeker.getReTypePassword());
-		
-		if (!isEqual) {
+				
+		if (isEqual) {
 			
 			throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MUCH);
 			

@@ -100,13 +100,12 @@ response.setSuccess(true);
 	@PutMapping("/upDate/{id}")
 	public ResponseEntity<Response> updateJob( @RequestBody EmployerRequest employerRequest, @PathVariable Long id ){
 		
-		EmployerRequest request=employerService.updateEmployer(employerRequest,id);
+		employerService.updateEmployer(employerRequest,id);
 		
 
 		Response response = new Response();
 		response.setMessage(ResponseMessage.EMPLOYER_UPDATED);
 		response.setSuccess(true);
-		response.setReturnObject(request);
 		
 		return ResponseEntity.ok(response);  
 		
