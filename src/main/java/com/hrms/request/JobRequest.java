@@ -24,7 +24,7 @@ public class JobRequest {
 	
 	
 	
-	private String name;
+	private String jobName;
 	
     private int quantity;
 	

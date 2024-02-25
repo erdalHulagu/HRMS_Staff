@@ -11,12 +11,13 @@ import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.JobSeekerRepository;
 import com.hrms.request.JobSeekerRequest;
+import com.hrms.request.LoginRequest;
 
 @Service
 public class JobSeekerService {
 	
-	
 	private JobSeekerRepository jobSeekerRepository;
+	
 	
 	
 	public JobSeekerService(JobSeekerRepository jobSeekerRepository) {
@@ -30,7 +31,7 @@ public class JobSeekerService {
 		
 	boolean isEqual=jobSeeker.getPassword().equals(jobSeeker.getReTypePassword());
 				
-		if (isEqual) {
+		if (!isEqual) {
 			
 			throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MUCH);
 			
@@ -159,6 +160,25 @@ public class JobSeekerService {
 		public List<JobSeeker> getAll(){
 			List<JobSeeker> jobs=	jobSeekerRepository.findAll();
 			return jobs;
+		}
+
+		public JobSeekerDTO getByEmail(LoginRequest loginRequest) {
+			List<JobSeeker> jobSeekers= getAll();
+			boolean jobSeeker= jobSeekers.stream().anyMatch(j->j.getEmail().equals(loginRequest.getEmail()));
+		
+
+		
+			JobSeekerDTO jobSeekerDTO=new JobSeekerDTO();
+			jobSeekerDTO.setEmail(jobSeeker.getEmail());
+			jobSeekerDTO.setPassword(jobSeeker.getPassword());
+			jobSeekerDTO.setBirth(jobSeeker.getBirth());
+			jobSeekerDTO.setFirstName(jobSeeker.getFirstName());
+			jobSeekerDTO.setLastName(jobSeeker.getLastName());
+			jobSeekerDTO.setPersonalId(jobSeeker.getPersonalId());
+			jobSeekerDTO.setPhone(jobSeeker.getPhone());
+			jobSeekerDTO.setWebside(jobSeeker.getWebside());
+			
+			return jobSeekerDTO;
 		}
 
 		

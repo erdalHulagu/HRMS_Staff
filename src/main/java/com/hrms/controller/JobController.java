@@ -20,6 +20,8 @@ import com.hrms.request.JobRequest;
 import com.hrms.response.Response;
 import com.hrms.service.JobService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/jobs")
 public class JobController {
@@ -32,7 +34,7 @@ public class JobController {
 		
 		this.jobService=jobService;
 	}
-	
+	@Transactional
 	@PostMapping("/createJob")
 	public ResponseEntity<Response> createJob(@RequestBody Job job ){
 		

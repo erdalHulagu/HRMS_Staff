@@ -14,6 +14,8 @@ public class ErrorMessage {
 	
 	public static final String NAME_CONFLICT = "%s al ready exist   ";
 
+	public static final String PASSWORD_WRONG = "Password with %s wrong" ;
+
 	
 	
 

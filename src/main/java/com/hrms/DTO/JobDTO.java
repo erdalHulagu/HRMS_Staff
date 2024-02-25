@@ -38,7 +38,7 @@ public class JobDTO {
 	
 	@NotNull
 	@NotBlank
-	private String name;
+	private String jobName;
 	
 	private int quantity;
 	

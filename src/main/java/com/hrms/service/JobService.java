@@ -49,10 +49,10 @@ public class JobService {
 	public void createJob(Job job) {
 	List<Job> jobs	=getAll();
 	
-	boolean isMuch =jobs.stream().anyMatch(jb->jb.getName().equals(job.getName()));
+	boolean isMuch =jobs.stream().anyMatch(jb->jb.getJobName().equals(job.getJobName()));
 	
 	if (isMuch) {
-		throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getName()));
+		throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getJobName()));
 	}
 	
 		jobRepository.save(job);
@@ -70,7 +70,7 @@ public class JobService {
 	
 			JobDTO jobDTO=new JobDTO();
 		
-		jobDTO.setName(job.getName());
+		jobDTO.setJobName(job.getJobName());
 		jobDTO.setDescription(job.getDescription());
 		jobDTO.setQuantity(job.getQuantity());
 	
@@ -95,7 +95,7 @@ public class JobService {
 
 	       
 	        for (Job job : jobs) {
-	            JobDTO jobDTO = new JobDTO(job.getName(),
+	            JobDTO jobDTO = new JobDTO(job.getJobName(),
 	            		                   job.getQuantity(),
 	            		                   job.getDescription());
 	            jobDTOs.add(jobDTO);
@@ -114,7 +114,7 @@ public class JobService {
 		
 		Job job =	getById(id);
 
-       job.setName(jobRequest.getName());
+       job.setJobName(jobRequest.getJobName());
        job.setDescription(jobRequest.getDescription());
        job.setQuantity(jobRequest.getQuantity());
 

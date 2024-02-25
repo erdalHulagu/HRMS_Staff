@@ -20,6 +20,7 @@ import com.hrms.Message.ResponseMessage;
 import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
 import com.hrms.request.JobSeekerRequest;
+import com.hrms.request.LoginRequest;
 import com.hrms.response.Response;
 import com.hrms.service.JobSeekerService;
 import com.hrms.service.JobService;
@@ -121,6 +122,14 @@ response.setSuccess(true);
 		
 	return	ResponseEntity.ok(response);
 		
+		
+	}
+	@GetMapping("/email")
+	public ResponseEntity<JobSeekerDTO> loginWithEmail(@RequestBody LoginRequest loginRequest){
+		
+	JobSeekerDTO jobSeekerDTO	=jobSeekerService.getByEmail(loginRequest);
+	
+	return ResponseEntity.ok(jobSeekerDTO);
 		
 	}
 

@@ -34,11 +34,17 @@ public class Job {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+//	@Column(name = "company_name", nullable = false)
+//	@NotNull
+//	@NotBlank
+//	private String companyName;
+	
+	
 	
 	@Column(name = "job_name", nullable = false)
 	@NotNull
 	@NotBlank
-	private String name;
+	private String jobName;
 	
 	
 	@Column(name = "job_quantity")
