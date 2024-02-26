@@ -42,9 +42,13 @@ public class JobDTO {
 	
 	private int quantity;
 	
+	private String companyName;
+	
 	private String description;
 	
+	private int maxPrice;
 	
+	private int minPrice;
 //    private Employer employer;
 
 	

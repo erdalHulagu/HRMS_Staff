@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.hrms.DTO.JobDTO;
 import com.hrms.Message.ErrorMessage;
+import com.hrms.domain.Employer;
 import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
 import com.hrms.exeption.ConflictException;
@@ -32,14 +33,18 @@ public class JobService {
 	
 	private  JobSeekerService jobSeekerService;
 	
+	private EmployerService employerService;
+	
 
 	public JobService(JobRepository jobRepository,
 			          JobSeekerRepository jobSeekerRepository,
-			          JobSeekerService jobSeekerService) {
+			          JobSeekerService jobSeekerService,
+			          EmployerService employerService) {
 	
 		this.jobRepository = jobRepository;
 		this.jobSeekerRepository=jobSeekerRepository;
 		this.jobSeekerService=jobSeekerService;
+		this.employerService=employerService;
 		
 		
 	}
@@ -61,7 +66,19 @@ public class JobService {
 	
 		
 	}
-
+	public Job createJobByEmployer(Job job) {
+		List<Job> jobs	=getAll();
+		
+		boolean isMuch =jobs.stream().anyMatch(jb->jb.getJobName().equals(job.getJobName()));
+		
+		if (isMuch) {
+			throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getJobName()));
+		}
+		
+			Job empJob =jobRepository.save(job);
+			return empJob;
+			
+	}
 
 	//--------------------------
 	public JobDTO findJobById(Long id) {
@@ -73,6 +90,10 @@ public class JobService {
 		jobDTO.setJobName(job.getJobName());
 		jobDTO.setDescription(job.getDescription());
 		jobDTO.setQuantity(job.getQuantity());
+		jobDTO.setCompanyName(job.getCompanyName());
+		jobDTO.setMaxPrice(job.getMaxPrice());
+		jobDTO.setMinPrice(job.getMinPrice());
+		
 	
 	return jobDTO;
 		
@@ -95,9 +116,12 @@ public class JobService {
 
 	       
 	        for (Job job : jobs) {
-	            JobDTO jobDTO = new JobDTO(job.getJobName(),
+	            JobDTO jobDTO = new JobDTO(job.getCompanyName(),
 	            		                   job.getQuantity(),
-	            		                   job.getDescription());
+	            		                   job.getJobName(),
+	            		                   job.getDescription(),
+	            		                   job.getMaxPrice(),
+	            		                   job.getMinPrice());
 	            jobDTOs.add(jobDTO);
 	        }
 		
@@ -115,8 +139,11 @@ public class JobService {
 		Job job =	getById(id);
 
        job.setJobName(jobRequest.getJobName());
+       job.setCompanyName(jobRequest.getCompanyName());
        job.setDescription(jobRequest.getDescription());
        job.setQuantity(jobRequest.getQuantity());
+       job.setMaxPrice(jobRequest.getMaxPrice());
+       job.setMinPrice(jobRequest.getMinPrice());
 
          jobRepository.save(job);
 
@@ -185,9 +212,12 @@ public class JobService {
 	}
 
 
-	
-	
+	 public List<Job> getAllJobsByEmployer(Long employerId) {
+	        Employer employer = employerService.getEmployerById(employerId);
+	        return jobRepository.findJobByEmployer(employer);
 
+	 }
+	
 
 
 	
