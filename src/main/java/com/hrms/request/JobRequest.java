@@ -24,13 +24,19 @@ public class JobRequest {
 	
 	
 	
-	private String name;
+	private String jobName;
+	
+	private String companyName;
 	
     private int quantity;
 	
 	private String description;
 	
     private Employer employer;
+    
+    private int maxPrice;
+    
+    private int minPrice;
 
     private Set<JobSeeker> jobSeekers;
 	

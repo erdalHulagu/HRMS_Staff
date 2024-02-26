@@ -1,25 +1,21 @@
 package com.hrms.controller;
 
 import java.util.List;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.hrms.DTO.JobDTO;
 import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ResponseMessage;
-import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
 import com.hrms.request.JobSeekerRequest;
+import com.hrms.request.LoginRequest;
 import com.hrms.response.Response;
 import com.hrms.service.JobSeekerService;
 import com.hrms.service.JobService;
@@ -121,6 +117,14 @@ response.setSuccess(true);
 		
 	return	ResponseEntity.ok(response);
 		
+		
+	}
+	@GetMapping("/email")
+	public ResponseEntity<JobSeekerDTO> loginWithEmail(@Validated @RequestBody LoginRequest loginRequest){
+		
+	JobSeekerDTO jobSeekerDTO	=jobSeekerService.getByEmail(loginRequest);
+	
+	return ResponseEntity.ok(jobSeekerDTO);
 		
 	}
 

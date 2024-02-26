@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hrms.DTO.JobDTO;
@@ -19,6 +20,8 @@ import com.hrms.domain.Job;
 import com.hrms.request.JobRequest;
 import com.hrms.response.Response;
 import com.hrms.service.JobService;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/jobs")
@@ -32,7 +35,7 @@ public class JobController {
 		
 		this.jobService=jobService;
 	}
-	
+	@Transactional
 	@PostMapping("/createJob")
 	public ResponseEntity<Response> createJob(@RequestBody Job job ){
 		
@@ -101,6 +104,6 @@ response.setSuccess(true);
 		return ResponseEntity.ok(job);  
 		
 	}
-
+	
 }
 

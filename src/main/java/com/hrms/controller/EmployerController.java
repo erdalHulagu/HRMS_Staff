@@ -2,6 +2,7 @@ package com.hrms.controller;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hrms.DTO.EmployerDTO;
+import com.hrms.DTO.JobDTO;
 import com.hrms.Message.ResponseMessage;
 import com.hrms.domain.Employer;
+import com.hrms.domain.Job;
 import com.hrms.request.EmployerRequest;
 import com.hrms.response.Response;
 import com.hrms.service.EmployerService;
 import com.hrms.service.JobService;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("employers")
@@ -36,7 +41,7 @@ public class EmployerController {
 	}
 
 	@PostMapping("/createEmployer")
-	public ResponseEntity<Response> createJobSeeker(@RequestBody Employer employer ){
+	public ResponseEntity<Response> createEmployer(@RequestBody Employer employer ){
 		
 		
 		
@@ -100,17 +105,33 @@ response.setSuccess(true);
 	@PutMapping("/upDate/{id}")
 	public ResponseEntity<Response> updateJob( @RequestBody EmployerRequest employerRequest, @PathVariable Long id ){
 		
-		EmployerRequest request=employerService.updateEmployer(employerRequest,id);
+		employerService.updateEmployer(employerRequest,id);
 		
 
 		Response response = new Response();
 		response.setMessage(ResponseMessage.EMPLOYER_UPDATED);
 		response.setSuccess(true);
-		response.setReturnObject(request);
 		
 		return ResponseEntity.ok(response);  
 		
 	}
+	
+	@PostMapping("/empleoyerJob/{employerId}")
+	 public ResponseEntity<Job> createJobByEmployer(@RequestBody Job job, @PathVariable  Long employerId){
+		
+	Job jb=employerService.createJobByEmployer(job,employerId);
+		
+		
+		return ResponseEntity.ok(jb);
+		
+		
+	}
+	 @GetMapping("/employer/{employerId}")
+	    public ResponseEntity<List<Job>> getAllJobsByEmployer(@PathVariable Long employerId) {
+	        List<Job> jobs = jobService.getAllJobsByEmployer(employerId);
+	        return ResponseEntity.ok(jobs);
+	    }
+	
 	
 
 }

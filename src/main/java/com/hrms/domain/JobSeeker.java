@@ -51,7 +51,6 @@ public class JobSeeker {
 	private String personalId;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	@NotNull
 	@Column(nullable = false, updatable = false)
 	private LocalDate birth;
 	

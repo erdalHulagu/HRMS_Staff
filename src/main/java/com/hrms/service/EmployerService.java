@@ -8,8 +8,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.hrms.DTO.EmployerDTO;
+import com.hrms.DTO.JobDTO;
 import com.hrms.Message.ErrorMessage;
 import com.hrms.domain.Employer;
+import com.hrms.domain.Job;
 import com.hrms.exeption.BadRequestException;
 import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
@@ -25,12 +27,16 @@ public class EmployerService {
 	
 	private JobRepository jobRepository;
 	
+	private JobService jobService;
+	
 
 	public EmployerService(EmployerRepository employerRepository,
-			               JobRepository jobRepository) {
+			               JobRepository jobRepository,
+			               JobService jobService) {
 		
 		this.employerRepository = employerRepository;
 		this.jobRepository=jobRepository;
+		this.jobService=jobService;
 	}
 
 //------------------------
@@ -164,6 +170,26 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 			
 			
 			
+			
+		}
+
+			
+		
+	public Job createJobByEmployer(Job job, Long employerId) {
+		
+		Employer employer=getEmployerById(employerId);
+	
+		Job jb =	jobService.createJobByEmployer(job);
+		
+		jb.setEmployer(employer);
+		
+	jb.setCompanyName(employer.getCompanyName());
+	
+      Job	j=jobRepository.save(jb);
+		
+		return j;
+		
+	
 			
 		}
 

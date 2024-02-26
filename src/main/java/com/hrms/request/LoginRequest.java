@@ -1,4 +1,4 @@
-package com.hrms.response;
+package com.hrms.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,16 +7,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+@AllArgsConstructor
+
+public class LoginRequest {
 	
-	private String 
-	message;
 	
-    private boolean 
-    success;
-  
-    
-    
+	private String email;
+	
+	private String password;
+
 }

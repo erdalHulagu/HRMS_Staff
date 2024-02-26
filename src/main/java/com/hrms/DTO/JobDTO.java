@@ -38,13 +38,17 @@ public class JobDTO {
 	
 	@NotNull
 	@NotBlank
-	private String name;
+	private String jobName;
 	
 	private int quantity;
 	
+	private String companyName;
+	
 	private String description;
 	
+	private int maxPrice;
 	
+	private int minPrice;
 //    private Employer employer;
 
 	
