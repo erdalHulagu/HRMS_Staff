@@ -10,8 +10,11 @@ import com.hrms.domain.JobSeeker;
 
 public interface JobSeekerRepository extends JpaRepository<JobSeeker, Long>{
 
-//	@Query("SELECT j FROM tb_jobSeeker j WHERE j.email = :email")
-	Optional<JobSeeker> getByEmail(String email);
+
+//	 getByEmail(String email);
+
+	@Query("SELECT j FROM JobSeeker j WHERE j.email = :email")
+	Optional<JobSeeker> findByEmail(String email);
 
 	
 }

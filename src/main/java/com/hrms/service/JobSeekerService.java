@@ -163,10 +163,23 @@ public class JobSeekerService {
 		}
 
 		public JobSeekerDTO getByEmail(LoginRequest loginRequest) {
-			List<JobSeeker> jobSeekers= getAll();
-			boolean jobSeeker= jobSeekers.stream().anyMatch(j->j.getEmail().equals(loginRequest.getEmail()));
+//			List<JobSeeker> jobSeekers= getAll();
+//			if (jobSeekers.stream().anyMatch(jsk->jsk.getEmail().equals(loginRequest.getEmail())));
+//				
+		JobSeeker jobSeeker=	
+				            jobSeekerRepository.findByEmail(
+				            		loginRequest.getEmail()).orElseThrow(
+				            				()->new ResourceNotFoundException(
+				            						String.format(
+				            								ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, loginRequest.getEmail())));
 		
-
+		if (!jobSeeker.getPassword().equals(loginRequest.getPassword())) {
+			throw new BadRequestException(String.format(ErrorMessage.PASSWORD_NOT_MUCH, loginRequest.getPassword()));
+		}
+			
+			
+		
+			
 		
 			JobSeekerDTO jobSeekerDTO=new JobSeekerDTO();
 			jobSeekerDTO.setEmail(jobSeeker.getEmail());
