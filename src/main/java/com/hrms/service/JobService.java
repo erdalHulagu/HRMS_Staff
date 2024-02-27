@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.LayoutFocusTraversalPolicy;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +40,7 @@ public class JobService {
 	public JobService(JobRepository jobRepository,
 			          JobSeekerRepository jobSeekerRepository,
 			          JobSeekerService jobSeekerService,
-			          EmployerService employerService) {
+			          @Lazy EmployerService employerService) {
 	
 		this.jobRepository = jobRepository;
 		this.jobSeekerRepository=jobSeekerRepository;
@@ -54,12 +55,12 @@ public class JobService {
 	public void createJob(Job job) {
 	List<Job> jobs	=getAll();
 	
-	boolean isMuch =jobs.stream().anyMatch(jb->jb.getJobName().equals(job.getJobName()));
-	
-	if (isMuch) {
-		throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getJobName()));
-	}
-	
+//	boolean isMuch =jobs.stream().anyMatch(jb->jb.getJobName().equals(job.getJobName()));
+//	
+//	if (isMuch) {
+//		throw new ConflictException(String.format(ErrorMessage.NAME_CONFLICT, job.getJobName()));
+//	}
+//	
 		jobRepository.save(job);
 		
 			
@@ -212,9 +213,10 @@ public class JobService {
 	}
 
 
+
 	 public List<Job> getAllJobsByEmployer(Long employerId) {
 	        Employer employer = employerService.getEmployerById(employerId);
-	        return jobRepository.findJobByEmployer(employer);
+	      return   jobRepository.findJobByEmployer(employer.getId());
 
 	 }
 	

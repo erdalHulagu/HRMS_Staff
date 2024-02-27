@@ -26,7 +26,7 @@ import com.hrms.service.JobService;
 import jakarta.transaction.Transactional;
 
 @RestController
-@RequestMapping("employers")
+@RequestMapping("/employers")
 public class EmployerController {
 	
 	private EmployerService employerService;
@@ -116,7 +116,7 @@ response.setSuccess(true);
 		
 	}
 	
-	@PostMapping("/empleoyerJob/{employerId}")
+	@PostMapping("/employerJob/{employerId}")
 	 public ResponseEntity<Job> createJobByEmployer(@RequestBody Job job, @PathVariable  Long employerId){
 		
 	Job jb=employerService.createJobByEmployer(job,employerId);

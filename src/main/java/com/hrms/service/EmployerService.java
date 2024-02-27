@@ -181,8 +181,10 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 	
 		Job jb =	jobService.createJobByEmployer(job);
 		
-		jb.setEmployer(employer);
+		employer.setJob(jb);
 		
+employerRepository.save(employer);
+
 	jb.setCompanyName(employer.getCompanyName());
 	
       Job	j=jobRepository.save(jb);
