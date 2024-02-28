@@ -49,7 +49,11 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 			
 			throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MUCH);
 			
-		}
+		}else if( !employer.getWebside().startsWith("www.")){
+	    	  throw new BadRequestException(String.format(ErrorMessage.ADD_WWW, employer.getWebside()));
+	    	  
+		
+	      }
 		
 		
 	List<Employer> employers= getAll();
@@ -181,7 +185,9 @@ boolean isEqual=employer.getPassword().equals(employer.getReTypePassword());
 	
 		Job jb =	jobService.createJobByEmployer(job);
 		
-		employer.setJob(jb);
+		jb.setEmployer(employer);
+		
+		employer.getJobs().add(jb);
 		
 employerRepository.save(employer);
 
@@ -194,6 +200,25 @@ employerRepository.save(employer);
 	
 			
 		}
+	
+//	public void createJobByEmployer(Job job, Long employerId) {
+//		
+//		Employer employer=getEmployerById(employerId);
+//		
+//		job.setCompanyName(employer.getCompanyName());
+//		
+//		List<Job> jobs=jobService.getAll();
+//		
+//		jobs.add(job);
+//		
+//		employer.getJobs().add(job);
+//		
+//		jobRepository.saveAll(jobs);
+//		
+//		employerRepository.save(employer);
+//		
+//		
+//	}
 
 		
 

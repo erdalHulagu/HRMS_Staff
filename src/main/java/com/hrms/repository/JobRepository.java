@@ -15,8 +15,7 @@ public interface JobRepository extends JpaRepository<Job, Long>{
 	@Query("SELECT j FROM Job j WHERE j.employer.id = :employerId")
 	List<Job> findJobByEmployer(@Param("employerId") Long employerId);
 
-//	@Query("SELECT * j From Job j WHERE j.employer=:employer")
-//	List<Job> findJobByEmployer(Employer employer);
+	
 
 	
 

@@ -16,6 +16,8 @@ public class ErrorMessage {
 
 	public static final String PASSWORD_WRONG = "Password with %s wrong" ;
 
+	public static final String ADD_WWW = "Add www before %s";
+
 	
 	
 

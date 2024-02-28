@@ -115,14 +115,29 @@ response.setSuccess(true);
 		return ResponseEntity.ok(response);  
 		
 	}
-	
+//	
+//	@PostMapping("/employerJob/{employerId}")
+//	 public ResponseEntity<Job> createJobByEmployer(@RequestBody Job job, @PathVariable  Long employerId){
+//		
+//	Job jb=employerService.createJobByEmployer(job,employerId);
+//		
+//		
+//		return ResponseEntity.ok(jb);
+//		
+//		
+//	}
 	@PostMapping("/employerJob/{employerId}")
-	 public ResponseEntity<Job> createJobByEmployer(@RequestBody Job job, @PathVariable  Long employerId){
+	public ResponseEntity<Response> createJobByEmployer(@RequestBody Job job, @PathVariable  Long employerId){
 		
-	Job jb=employerService.createJobByEmployer(job,employerId);
+		employerService.createJobByEmployer(job,employerId);
 		
 		
-		return ResponseEntity.ok(jb);
+		Response response = new Response();
+		response.setMessage(ResponseMessage.JOB_CREATED);
+		response.setSuccess(true);
+		
+		return ResponseEntity.ok(response);  
+		
 		
 		
 	}

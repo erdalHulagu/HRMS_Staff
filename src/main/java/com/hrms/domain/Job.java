@@ -1,7 +1,14 @@
 package com.hrms.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.yaml.snakeyaml.constructor.Constructor;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hrms.DTO.JobDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +34,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "tb_job")
 public class Job {
 	@Id
@@ -53,12 +59,21 @@ public class Job {
 	@Column(name = "job_description")
 	@NotNull
 	private String description;
-	
+	@Column
     private int maxPrice;
 	
+    @Column
 	private int minPrice;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@Column
+	private LocalDateTime createTime;
 	
-	@OneToOne(mappedBy = "job")
+
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employer_id", referencedColumnName = "id")
     private Employer employer;
 	
 	
@@ -71,6 +86,10 @@ public class Job {
     private List<JobSeeker> jobSeekers;
 	
 	
-	
+	public Job() {
+		this.createTime=LocalDateTime.now();
+	}
 
+
+	
 }

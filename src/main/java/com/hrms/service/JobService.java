@@ -216,6 +216,9 @@ public class JobService {
 
 	 public List<Job> getAllJobsByEmployer(Long employerId) {
 	        Employer employer = employerService.getEmployerById(employerId);
+
+	       
+	       
 	      return   jobRepository.findJobByEmployer(employer.getId());
 
 	 }
