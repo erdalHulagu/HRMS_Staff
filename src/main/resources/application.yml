@@ -5,7 +5,7 @@ server:
   include-message: always
 spring:
  main:
-  allow-circular-references: true # 8 ve 9 yeni eklendi
+  allow-circular-references: false # 8 ve 9 yeni eklendi
  jackson: 
   serialization: 
    write-dates-as-timestamps: false

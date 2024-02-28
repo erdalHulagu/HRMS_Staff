@@ -3,6 +3,7 @@ package com.hrms.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,7 @@ import com.hrms.response.Response;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -72,8 +74,8 @@ public class Employer {
 	@Column(nullable = false)
 	@NotBlank
 	@NotNull
-//	@Pattern(regexp = "\\\\d{3}-\\\\d{3}-\\\\d{4}",	// 999-999-9999
-//	message = "Please provide valid phone number" ) 
+	@Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}",	// 999-999-9999
+	message = "Please provide valid phone number" ) 
 	private String phone;
 	
 	@Column(nullable = false,name = "companys_webside")
@@ -82,10 +84,8 @@ public class Employer {
 	private String webside;
 	
 	
-	
-	@OneToOne
-    @JoinColumn(name = "employer_id")
-	private Job job;
+	@OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Job> jobs;
 	
 	@OneToMany(targetEntity = JobSeeker.class, cascade = CascadeType.ALL)
 	private List<JobSeeker> jobSeeker;
