@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.LayoutFocusTraversalPolicy;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,7 @@ import com.hrms.Message.ErrorMessage;
 import com.hrms.domain.Employer;
 import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
+import com.hrms.exeption.BadRequestException;
 import com.hrms.exeption.ConflictException;
 import com.hrms.exeption.ResourceNotFoundException;
 import com.hrms.repository.JobRepository;
@@ -39,7 +38,7 @@ public class JobService {
 
 	public JobService(JobRepository jobRepository,
 			          JobSeekerRepository jobSeekerRepository,
-			          JobSeekerService jobSeekerService,
+			          @Lazy JobSeekerService jobSeekerService,
 			          @Lazy EmployerService employerService) {
 	
 		this.jobRepository = jobRepository;
@@ -101,37 +100,40 @@ public class JobService {
 	}
 
 
-	//--------------------------
-	public List<JobDTO> findAllJobs() {
+//	//--------------------------
+//	public List<JobDTO> findAllJobs() {
+//		List<Job> jobs=	jobRepository.findAll();
+//			
+//		
+//		//With using Lambda stream
+//		//
+////			List<JobDTO> jobDTOs = new ArrayList<>();
+////	        jobs.stream()
+////	            .map(job -> new JobDTO(job.getName()))
+////	            .forEach(jobDTOs::add);
+//	        
+//	        List<JobDTO> jobDTOs = new ArrayList<>();
+//
+//	       
+//	        for (Job job : jobs) {
+//	            JobDTO jobDTO = new JobDTO(job.getCompanyName(),
+//	            		                   job.getQuantity(),
+//	            		                   job.getJobName(),
+//	            		                   job.getDescription(),
+//	            		                   job.getMaxPrice(),
+//	            		                   job.getMinPrice());
+//	            jobDTOs.add(jobDTO);
+//	        }
+//		
+//		return jobDTOs;
+//		
+//		
+//	}
+
+	public List<Job> findAllJobs() {
 		List<Job> jobs=	jobRepository.findAll();
-			
-		
-		//With using Lambda stream
-		//
-//			List<JobDTO> jobDTOs = new ArrayList<>();
-//	        jobs.stream()
-//	            .map(job -> new JobDTO(job.getName()))
-//	            .forEach(jobDTOs::add);
-	        
-	        List<JobDTO> jobDTOs = new ArrayList<>();
-
-	       
-	        for (Job job : jobs) {
-	            JobDTO jobDTO = new JobDTO(job.getCompanyName(),
-	            		                   job.getQuantity(),
-	            		                   job.getJobName(),
-	            		                   job.getDescription(),
-	            		                   job.getMaxPrice(),
-	            		                   job.getMinPrice());
-	            jobDTOs.add(jobDTO);
-	        }
-		
-		return jobDTOs;
-		
-		
+		return jobs;
 	}
-
-
 
 
 	//--------------------------
@@ -206,6 +208,8 @@ public class JobService {
 		
 		job.getJobSeekers().add(jobSeeker);
 		
+		jobSeeker.getAppliedJobs().add(job);
+		
 		jobRepository.save(job);
 		
 		
@@ -217,11 +221,36 @@ public class JobService {
 	 public List<Job> getAllJobsByEmployer(Long employerId) {
 	        Employer employer = employerService.getEmployerById(employerId);
 
+	       List<Job>jobs= jobRepository.findJobByEmployer(employer.getId());
 	       
+	       if (jobs.isEmpty()) {
+	    	   throw new BadRequestException(String.format(ErrorMessage.NO_JOB, employerId));
+			
+		}
 	       
-	      return   jobRepository.findJobByEmployer(employer.getId());
+	      return jobs; 
 
 	 }
+
+
+	public List<Job> getAllJobsByJobSeekerId(Long jobSeekerId) {
+		
+	
+		JobSeeker jobSeeker	=jobSeekerService.getJobSeekerById(jobSeekerId);
+	
+		
+		 List<Job>jobs=jobRepository.findJobsByJobSeekerId(jobSeeker.getId());
+		 
+		 if (jobs.isEmpty()) {
+			 
+			 throw  new BadRequestException(String.format(ErrorMessage.NO_JOB,jobSeekerId));
+			
+		}
+		 
+		 jobSeeker.getAppliedJobs().addAll(jobs);
+		 
+		 return jobs;
+	}
 	
 
 

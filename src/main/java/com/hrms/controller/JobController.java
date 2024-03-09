@@ -35,7 +35,7 @@ public class JobController {
 		
 		this.jobService=jobService;
 	}
-	@Transactional
+	
 	@PostMapping("/createJob")
 	public ResponseEntity<Response> createJob(@RequestBody Job job ){
 		
@@ -61,13 +61,21 @@ public class JobController {
 	return ResponseEntity.ok(jobDTO);
 	}
 	
+//	
+//	@GetMapping("/all")
+//	public ResponseEntity<List<JobDTO>> getAllJobs(){
+//		
+//		List<JobDTO> jobDTO=	jobService.findAllJobs();
+//		
+//		return ResponseEntity.ok(jobDTO);
+//	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<JobDTO>> getAllJobs(){
+	public ResponseEntity<List<Job>> getAllJobs(){
 		
-		List<JobDTO> jobDTO=	jobService.findAllJobs();
+		List<Job> jobs=	jobService.findAllJobs();
 		
-		return ResponseEntity.ok(jobDTO);
+		return ResponseEntity.ok(jobs);
 	}
 	
 	
@@ -96,7 +104,7 @@ response.setSuccess(true);
 		return ResponseEntity.ok(response);
 	}
 	
-	@PutMapping("/upDate/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<JobRequest> updateJob( @RequestBody JobRequest jobRequest, @PathVariable Long id ){
 		
 		JobRequest job=jobService.updateJob(jobRequest,id);

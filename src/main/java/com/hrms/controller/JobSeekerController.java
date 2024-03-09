@@ -1,6 +1,8 @@
 package com.hrms.controller;
 
 import java.util.List;
+
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hrms.DTO.JobSeekerDTO;
 import com.hrms.Message.ResponseMessage;
+import com.hrms.domain.Job;
 import com.hrms.domain.JobSeeker;
 import com.hrms.request.JobSeekerRequest;
 import com.hrms.request.LoginRequest;
@@ -21,7 +24,7 @@ import com.hrms.service.JobSeekerService;
 import com.hrms.service.JobService;
 
 @RestController
-@RequestMapping("/jobSeekers")
+@RequestMapping("/jobseekers")
 public class JobSeekerController {
 	
 	private JobSeekerService jobSeekerService;
@@ -97,7 +100,7 @@ response.setSuccess(true);
 	}
 	
 	
-	@PutMapping("/upDate/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<JobSeekerRequest> updateJob( @RequestBody JobSeekerRequest jobSeekerRequest, @PathVariable Long id ){
 		
 		JobSeekerRequest jobSeeker=jobSeekerService.updateJobSeeker(jobSeekerRequest,id);
@@ -116,7 +119,17 @@ response.setSuccess(true);
 		response.setSuccess(true);
 		
 	return	ResponseEntity.ok(response);
+	
+	
 		
+	}
+	@GetMapping("/getAllJobs/{jobSeekerId}")
+	public ResponseEntity<List<Job>> getAllJobsByJobSeekerId(@Validated @PathVariable Long jobSeekerId){
+		
+		List<Job> jobs=jobService.getAllJobsByJobSeekerId(jobSeekerId);
+		
+		
+		return ResponseEntity.ok(jobs);
 		
 	}
 	@GetMapping("/email")

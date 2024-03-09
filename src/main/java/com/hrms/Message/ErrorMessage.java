@@ -18,6 +18,8 @@ public class ErrorMessage {
 
 	public static final String ADD_WWW = "Add www before %s";
 
+	public static final String NO_JOB = "No jobs found relited %s";
+
 	
 	
 
