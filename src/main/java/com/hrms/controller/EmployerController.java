@@ -102,7 +102,7 @@ response.setSuccess(true);
 	}
 	
 	
-	@PutMapping("/upDate/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<Response> updateJob( @RequestBody EmployerRequest employerRequest, @PathVariable Long id ){
 		
 		employerService.updateEmployer(employerRequest,id);
@@ -141,7 +141,7 @@ response.setSuccess(true);
 		
 		
 	}
-	 @GetMapping("/employer/{employerId}")
+	 @GetMapping("/{employerId}")
 	    public ResponseEntity<List<Job>> getAllJobsByEmployer(@PathVariable Long employerId) {
 	        List<Job> jobs = jobService.getAllJobsByEmployer(employerId);
 	        return ResponseEntity.ok(jobs);

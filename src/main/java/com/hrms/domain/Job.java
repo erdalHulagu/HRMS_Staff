@@ -76,7 +76,7 @@ public class Job {
     @JoinColumn(name = "employer_id", referencedColumnName = "id")
     private Employer employer;
 	
-	
+	@JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "job_application",
