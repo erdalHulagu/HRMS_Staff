@@ -34,7 +34,8 @@ public class EmployerController {
 	private JobService jobService;
 	
 	public EmployerController(EmployerService employerService,
-			                  JobService jobService) {
+			                  JobService jobService
+			                  ) {
 		this.employerService=employerService;
 		this.jobService=jobService;
 		
@@ -76,7 +77,7 @@ public class EmployerController {
 	}
 	
 	
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Response> deleteById(@PathVariable Long id){
 		
 		employerService.deleteEmployerById(id);
@@ -88,7 +89,7 @@ response.setSuccess(true);
 
 		return ResponseEntity.ok(response);
 	}
-	@DeleteMapping("deleteAll")
+	@DeleteMapping("/deleteAll")
 	public ResponseEntity<Response> deleteEmployerById(){
 		
 		employerService.deleteAllEmplloyers();
